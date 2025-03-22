@@ -1,0 +1,18 @@
+<div class="d-flex flex-sm-row flex-column gap-2">
+    <button class="btn btn-outline-primary me-sm-3 mb-2 mb-sm-0" (click)="get400Error()">Test 400 Error</button>
+    <button class="btn btn-outline-primary me-sm-3 mb-2 mb-sm-0" (click)="get401Error()">Test 401 Error</button>
+    <button class="btn btn-outline-primary me-sm-3 mb-2 mb-sm-0" (click)="get404Error()">Test 404 Error</button>
+    <button class="btn btn-outline-primary me-sm-3 mb-2 mb-sm-0" (click)="get500Error()">Test 500 Error</button>
+    <button class="btn btn-outline-primary me-sm-3 mb-2 mb-sm-0" (click)="get400ValidationError()">Test 400 Validation
+        Error</button>
+</div>
+
+@if (validationErrors.length > 0) {
+<div class="row mt-5">
+    <ul class="text-danger">
+        @for (error of validationErrors; track $index) {
+        <li>{{error}}</li>
+        }
+    </ul>
+</div>
+}
