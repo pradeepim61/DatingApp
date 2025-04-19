@@ -60,6 +60,8 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
             PublicId = result.PublicId
         };
 
+        if (user.Photos.Count == 0) photo.IsMain = true; // Set the first photo as main
+        
         user.Photos.Add(photo);
 
         if (await userRepository.SaveAllAsync()) return CreatedAtAction(nameof(GetUser),
@@ -106,7 +108,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
 
             if (result.Error != null) return BadRequest(result.Error.Message);
         }
-        
+
         user.Photos.Remove(photo);
 
         if (await userRepository.SaveAllAsync()) return Ok();
