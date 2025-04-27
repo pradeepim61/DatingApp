@@ -5,7 +5,7 @@
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <div class="collapse navbar-collapse" id="navbarNav">
             @if (accountService.currentUser()) {
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
@@ -13,24 +13,23 @@
                     <a routerLink="/members" routerLinkActive="active" class="nav-link">Matches</a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/lists" routerLinkActive="active" class="nav-link" >Lists</a>
-                </li>
-                <li class="nav-item">
-                    <a routerLink="/messages" routerLinkActive="active" class="nav-link" >Messages</a>
+                    <a routerLink="/messages" routerLinkActive="active" class="nav-link">Messages</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" (click)="logout()">Logout</a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/errors" routerLinkActive="active" class="nav-link" >Errors</a>
+                    <a routerLink="/errors" routerLinkActive="active" class="nav-link">Errors</a>
                 </li>
             </ul>
             }
 
             @if (accountService.currentUser()) {
             <div dropdown class="dropdown">
-                <img class="me-2" src="{{accountService.currentUser()?.photoUrl}}" alt="">
-                <a dropdownToggle class="dropdown-toggle text-light text-decoration-none">Welcome {{accountService.currentUser()?.username | titlecase}}</a>
+                <img class="me-2" src="{{accountService.currentUser()?.photoUrl || './assets/user.png'}}"
+                    alt="User main image">
+                <a dropdownToggle class="dropdown-toggle text-light text-decoration-none">Welcome
+                    {{accountService.currentUser()?.knownAs}}</a>
                 <div *dropdownMenu class="dropdown-menu">
                     <a routerLink="/member/edit" class="dropdown-item">Edit Profile</a>
                     <div class="dropdown-divider"></div>

@@ -5,11 +5,13 @@ import { Member } from '../../Models/Member';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { GalleryModule, GalleryItem, ImageItem } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
+import { TimeagoModule } from "ngx-timeago";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
-  imports: [TabsModule, GalleryModule, LightboxModule],
+  imports: [TabsModule, GalleryModule, LightboxModule,  TimeagoModule, DatePipe],
   templateUrl: './member-detail.component.html',
   styleUrl: './member-detail.component.css'
 })
