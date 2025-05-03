@@ -7,6 +7,7 @@ import { of, tap } from 'rxjs';
 import { Photo } from '../Models/Photo';
 import { PaginationResponse } from '../Models/Pagination';
 import { UserParams } from '../Models/UserParams';
+import { setPaginatedResponse, setPaginationHeader } from './paginationHelper';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +29,9 @@ export class MembersService {
     console.log(Object.values(this.userparams()).join('-'));
     const response = this.memberCache.get(Object.values(this.userparams()).join('-'));
 
-    if (response) return this.setPaginatedResponse(response);
+    if (response) return setPaginatedResponse(response, this.paginatedresponse);
 
-    let params = this.setPaginationHeader(this.userparams().pageNumber, this.userparams().pageSize);
+    let params = setPaginationHeader(this.userparams().pageNumber, this.userparams().pageSize);
 
     params = params.append('minAge', this.userparams().minAge);
     params = params.append('maxAge', this.userparams().maxAge);
@@ -39,29 +40,13 @@ export class MembersService {
 
     return this.http.get<Member[]>(this.baseUrl + 'users', { observe: 'response', params }).subscribe({
       next: response => {
-        this.setPaginatedResponse(response);
+        setPaginatedResponse(response, this.paginatedresponse);
         this.memberCache.set(Object.values(this.userparams()).join('-'), response);
       }
     })
   }
 
-  private setPaginatedResponse(response: HttpResponse<Member[]>) {
-    this.paginatedresponse.set({
-      items: response.body as Member[],
-      pagination: JSON.parse(response.headers.get('Pagination')!)
-    })
-  }
-
-  private setPaginationHeader(pageNumber: number, pageSize: number) {
-    let params = new HttpParams();
-
-    if (pageNumber && pageSize) {
-      params = params.append('pageNumber', pageNumber);
-      params = params.append('pageSize', pageSize);
-    }
-    return params;
-  }
-
+ 
   getMember(username: string) {
     const member: Member = [...this.memberCache.values()].reduce((arr, elem) => arr.concat(elem.body),
       [] as Member[]).find((member: Member) => member.username === username);

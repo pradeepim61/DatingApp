@@ -1,1 +1,35 @@
-<p>lists works!</p>
+<div class="text-center mb-">
+    <h2>{{ getTitle() }}</h2>
+</div>
+
+<div class="row g-3">
+    <div class="d-flex col-12 col-md-6 col-lg-4 mb-3">
+        <button class="btn btn-primary me-2" btnRadio="liked" [(ngModel)]="predicate" (click)="loadLikes()">
+            Members I Like
+        </button>
+        <button class="btn btn-info me-2" btnRadio="likedBy" [(ngModel)]="predicate" (click)="loadLikes()">
+            Members who Liked me
+        </button>
+        <button class="btn btn-success" btnRadio="Mutual" [(ngModel)]="predicate" (click)="loadLikes()">
+            Mutual Likes
+        </button>
+    </div>
+</div>
+    
+<div class="row g-3">
+    @for (member of likeService.paginatedresponse()?.items; track member.id) {
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12 ">
+        <app-member-card [member]="member"></app-member-card>
+    </div>
+    }
+</div>
+
+@if (likeService.paginatedresponse()?.pagination) {
+    <div class="d-flex justify-content-center mt-2">
+        <pagination [boundaryLinks]="true" [totalItems]="likeService.paginatedresponse()?.pagination!.totalItems"
+            [itemsPerPage]="likeService.paginatedresponse()?.pagination!.pageSize"
+            [(ngModel)]="likeService.paginatedresponse()?.pagination!.currentPage" (pageChanged)="pageChanged($event)"
+            [maxSize]="10" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+        </pagination>
+    </div>
+    }
