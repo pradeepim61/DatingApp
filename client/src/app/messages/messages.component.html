@@ -1,1 +1,65 @@
-<p>messages works!</p>
+<div class="container mt-3">
+    <div class="d-flex">
+        <div class="btn-group">
+            <button class="btn btn-primary me-2" btnRadio="Unread" 
+            [(ngModel)]="container" (click)="loadMessages()">Unread</button>
+            <button class="btn btn-info me-2" btnRadio="Inbox" 
+            [(ngModel)]="container" (click)="loadMessages()">Inbox</button>
+            <button class="btn btn-success" btnRadio="Outbox" 
+            [(ngModel)]="container" (click)="loadMessages()">Outbox</button>
+        </div>
+    </div>
+</div>
+
+@if (!messageService.paginatedResult()?.items || messageService.paginatedResult()?.items?.length == 0) {
+<p class="text-center mt-2">No messages found.</p>
+}
+@else{
+    <div class="table-responsive">
+        <table class="table table-hover mt-3" style="cursor:pointer; table-layout: fixed;">
+            <thead>
+                <tr>
+                    <th class="col-4">Message</th>
+                    <th class="col-2">From / To</th>
+                    <th class="col-2 me-1">Sent / Received</th>
+                    <th class="col-2"></th>
+                </tr>
+            </thead>
+            <tbody class="align-middle">
+                
+                    @for (message of messageService.paginatedResult()?.items; track message.id) {
+                        <tr routerLink="{{getRoute(message)}}" [queryParams]="{tab: 'Messages'}">
+                            <td class="col-4 text-truncate">{{message.content}}</td>
+                            <td class="col-2">
+                                <div>
+                                    <img [src]="isOutbox ? 
+                                    (message.recipientPhotoUrl || './assets/user.png') :
+                                    (message.senderPhotoUrl || './assets/user.png')" alt="image of user" 
+                                    class="rounded-circle me-2" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <strong>{{isOutbox ? message.recipientUserName : message.senderUserName}}</strong>
+                                </div>
+                            </td>
+                            <td class="col-2 me-1">{{message.messageSent | timeago}}</td>
+                            <td (click)="$event.stopPropagation()" class="col-2">
+                                <button class="btn btn-danger" (click)="deleteMessage(message.id)">Delete</button>
+                            </td>
+                        </tr>
+            
+                        }
+                
+            </tbody>
+            
+            </table>   
+            
+    </div>
+}
+
+@if (messageService.paginatedResult()?.pagination?.totalItems && messageService.paginatedResult()?.pagination?.totalItems! > 0) {
+    <div class="d-flex justify-content-center mt-2">
+        <pagination [boundaryLinks]="true" [totalItems]="messageService.paginatedResult()?.pagination!.totalItems"
+            [itemsPerPage]="messageService.paginatedResult()?.pagination!.pageSize"
+            [(ngModel)]="messageService.paginatedResult()?.pagination!.currentPage" (pageChanged)="pageChanged($event)"
+            [maxSize]="10" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+        </pagination>
+    </div>
+    }
