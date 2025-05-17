@@ -25,7 +25,7 @@ IUserRepository userRepository, IMapper mapper) : BaseApiController
         var sender = await userRepository.GetUserByUsernameAsync(username);
         var recipient = await userRepository.GetUserByUsernameAsync(createMessageDto.RecipientUserName);
 
-        if (recipient == null || sender == null) return NotFound();
+        if (recipient == null || sender == null || sender.UserName == null || recipient.UserName == null) return NotFound();
 
         var message = new Message
         {
