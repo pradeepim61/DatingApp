@@ -12,5 +12,4 @@ public interface ILikesRepository
     Task<IEnumerable<int>> GetCurrentUserLikeIds(int currentUserId);
     void AddLike(UserLike userLike);
     void DeleteLike(UserLike userLike);
-    Task<bool> SaveChanges();
 }

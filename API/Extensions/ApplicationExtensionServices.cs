@@ -26,6 +26,7 @@ public static class ApplicationExtensionServices
         services.AddScoped<LogUserActivity>();
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<ILikesRepository, LikesRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.Configure<CloudinarySettings>(config.GetRequiredSection("CloudinarySettings"));
         services.AddSignalR();
