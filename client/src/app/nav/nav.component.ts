@@ -33,4 +33,13 @@ export class NavComponent {
     this.router.navigateByUrl('/');
   }
 
+  collapseNavbar() {
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+    
+    if (navbarToggler && navbarCollapse && navbarCollapse.classList.contains('show')) {
+      navbarToggler.dispatchEvent(new Event('click'));
+    }
+  }
+
 }
