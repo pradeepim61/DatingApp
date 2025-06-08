@@ -22,14 +22,16 @@ export class MemberMessagesComponent implements AfterViewChecked {
   messageContent = '';
   @ViewChild('messageForm') messageForm?: NgForm;
   @ViewChild('scrollMe') scrollContainer?: any;
+  loading = false;
 
   sendMessage() {
+    this.loading = true;
     this.messageService
       .sendMessage(this.username(), this.messageContent)
       .then(() => {
         this.messageForm?.reset();
         this.scrollToBottom();
-      });
+      }).finally(() => this.loading = false);
   }
 
   ngAfterViewChecked(): void {

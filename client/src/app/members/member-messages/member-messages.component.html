@@ -40,7 +40,11 @@
             <div class="input-group">
                 <input type="text" name= "messageContent" required [(ngModel)]="messageContent" class="form-control input-sm" placeholder="Send a private message" />
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Send</button>
+                    <button class="btn btn-primary" type="submit">Send
+                        @if(loading){
+                            <i class="fa fa-spinner fa-spin"></i>
+                        }
+                    </button>
                 </div>
             </div>
         </form>
