@@ -17,7 +17,7 @@ public static class ApplicationExtensionServices
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddDbContext<DataContext>(opt =>
         {
-            opt.UseSqlite(config.GetConnectionString("DefaultConnections"));
+            opt.UseSqlServer(config.GetConnectionString("DefaultConnections"));
         });
         services.AddCors();
         services.AddScoped<ITokenService, TokenService>();

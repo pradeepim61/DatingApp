@@ -45,7 +45,7 @@ IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<i
             .HasOne(x => x.TargetUser)
             .WithMany(x => x.LikedByUsers)
             .HasForeignKey(x => x.TargetUserId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Entity<Message>()
             .HasOne(x => x.Sender)
